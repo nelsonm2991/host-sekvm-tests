@@ -6,6 +6,24 @@
 // entry function
 static int __init onload(void) {
     printk(KERN_EMERG "Loadable module initialized\n"); // print to /var/log/syslog
+
+    printk(KERN_EMERG "Attempting as many alloc_page(1MB) calls as possible\n"); // print to /var/log/syslog
+
+    struct page* result;
+    u64 count;
+
+    result = 0;
+    count = 0;
+    while (true) {
+        result = alloc_pages(GFP_KERNEL, 8);
+        if (result == NULL) {
+            break;
+        }
+        count += 1;
+    }
+
+    // print count
+
     return 0;
 }
 
